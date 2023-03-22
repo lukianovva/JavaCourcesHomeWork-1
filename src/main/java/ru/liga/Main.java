@@ -19,7 +19,7 @@ import ru.liga.forecast.repositories.contracts.RatesRepository;
 public class Main {
     public static void main(String[] args)  {
         if (args.length == 0) {
-            System.out.println("Ошибка: команда не передана");
+            System.out.println("Ошибка: Команда не передана");
 
             return;
         }
@@ -27,7 +27,7 @@ public class Main {
         if (args[0].equals("rate")) {
             Main.rate(args);
         } else {
-            System.out.println("Ошибка: для команды нет обработчика");
+            System.out.println("Ошибка: Для команды " + args[0] + " нет обработчика");
         }
     }
 

@@ -16,20 +16,21 @@ public final class Reader extends AbstractReader {
     public List<Row> readLines(String filename, int count) throws IOException {
         List<Row> rows = new ArrayList<>();
 
+        InputStream inputStream = getClass().getResourceAsStream(filename);
+        if (null == inputStream) {
+            throw new IOException("Файл " + filename + " не найден");
+        }
 
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 
-        try (BufferedReader reader = new BufferedReader(
-            new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(filename)), StandardCharsets.UTF_8)
-        )) {
-            String line;
-            int i = 0;
+        String line;
+        int i = 0;
 
-            while ((line = reader.readLine()) != null && i <= count) {
-                if (i > 0) {
-                    rows.add(parseRow(line));
-                }
-                i++;
+        while ((line = reader.readLine()) != null && i <= count) {
+            if (i > 0) {
+                rows.add(parseRow(line));
             }
+            i++;
         }
 
         return rows;

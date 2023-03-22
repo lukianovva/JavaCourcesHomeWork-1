@@ -30,7 +30,16 @@ public class RatesForecastController {
             this.validateRateRequest(args);
 
             String currency = args[1];
-            int days = Integer.parseInt(args[2]);
+            int days = 1;
+
+            switch (args[2]) {
+                case "tomorrow":
+                    days = 1;
+                    break;
+                case "week":
+                    days = 7;
+                    break;
+            }
 
             Map<String, ExchangeRatesList> data = new HashMap<>();
             data.put("forecasts", this.applicationForecastService.calculateForFeatureDays(currency, days));
@@ -49,7 +58,7 @@ public class RatesForecastController {
      */
     private void validateRateRequest(String[] args) throws ValidationException {
         if (args.length < 3) {
-            throw new ValidationException("Количество аргументов не модет быть менее трех");
+            throw new ValidationException("Количество аргументов не может быть менее трех");
         }
 
         String[] dates = {"tomorrow", "week"};
