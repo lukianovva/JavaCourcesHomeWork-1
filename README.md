@@ -6,9 +6,8 @@
 		
 **Пример**:
 
-nominal;data;curs;cdx
-
-1;01.02.2022;76,5032;"Евро"
+    nominal;data;curs;cdx
+    1;01.02.2022;76,5032;"Евро"
 
 Данные доступны по ссылке:
 https://www.cbr.ru/currency_base/dynamics/
