@@ -18,7 +18,7 @@ https://www.cbr.ru/currency_base/dynamics/
 
 Курс валюты на завтра: "rate TRY tomorrow" 
 
-    Вт 22.02.2022 - 6,11;
+    Вт 22.02.2022 - 6,11
 
 Курс валюты на 7 дней: "rate USD week"
 
