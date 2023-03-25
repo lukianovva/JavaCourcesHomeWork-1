@@ -1,4 +1,4 @@
-package ru.liga.forecast.presentation.contracts;
+package ru.liga.forecast.presentation.views;
 
 import java.util.Map;
 

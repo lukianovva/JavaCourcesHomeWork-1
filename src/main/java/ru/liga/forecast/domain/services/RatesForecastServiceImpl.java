@@ -1,9 +1,8 @@
 package ru.liga.forecast.domain.services;
 
-import ru.liga.forecast.domain.contracts.services.RateForecastService;
 import ru.liga.forecast.domain.entities.ExchangeRate;
 import ru.liga.forecast.domain.entities.ExchangeRatesList;
-import ru.liga.forecast.domain.contracts.services.strategies.ForecastStrategy;
+import ru.liga.forecast.domain.services.strategies.ForecastStrategy;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,10 +11,10 @@ import java.util.GregorianCalendar;
 /**
  * Сервис прогнозирования курса валют по предыдущим курсам
  */
-public class RatesForecastService implements RateForecastService {
+public class RatesForecastServiceImpl implements RateForecastService {
     private final ForecastStrategy strategy;
 
-    public RatesForecastService(ForecastStrategy strategy) {
+    public RatesForecastServiceImpl(ForecastStrategy strategy) {
         this.strategy = strategy;
     }
 

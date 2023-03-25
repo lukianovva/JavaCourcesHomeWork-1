@@ -1,6 +1,5 @@
 package ru.liga.forecast.domain.services.strategies;
 
-import ru.liga.forecast.domain.contracts.services.strategies.ForecastStrategy;
 import ru.liga.forecast.domain.entities.ExchangeRate;
 import ru.liga.forecast.domain.entities.ExchangeRatesList;
 

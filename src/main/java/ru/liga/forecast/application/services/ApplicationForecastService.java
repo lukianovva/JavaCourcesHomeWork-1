@@ -1,4 +1,4 @@
-package ru.liga.forecast.application.contracts.services;
+package ru.liga.forecast.application.services;
 
 import ru.liga.forecast.domain.entities.ExchangeRatesList;
 import ru.liga.forecast.exceptions.CurrencyNotFoundException;

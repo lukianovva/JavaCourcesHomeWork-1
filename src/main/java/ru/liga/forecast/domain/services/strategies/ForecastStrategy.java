@@ -1,4 +1,4 @@
-package ru.liga.forecast.domain.contracts.services.strategies;
+package ru.liga.forecast.domain.services.strategies;
 
 import ru.liga.forecast.domain.entities.ExchangeRatesList;
 

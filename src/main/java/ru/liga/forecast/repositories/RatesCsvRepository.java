@@ -2,7 +2,6 @@ package ru.liga.forecast.repositories;
 
 import ru.liga.csv.contracts.readers.Reader;
 import ru.liga.csv.entities.Row;
-import ru.liga.forecast.repositories.contracts.RatesRepository;
 import ru.liga.forecast.domain.entities.ExchangeRate;
 import ru.liga.forecast.domain.entities.ExchangeRatesList;
 import ru.liga.forecast.exceptions.CurrencyNotFoundException;

@@ -22,5 +22,18 @@ public record ExchangeRatesList(List<ExchangeRate> rates) {
 
         return sum / rates.size();
     }
+
+    public String toString()
+    {
+        int ratesSize = rates.size();
+        String[] ratesStrings = new String[ratesSize];
+
+
+        for (int i = 0; i< rates.size(); i++) {
+            ratesStrings[i] = rates.get(i).toString();
+        }
+
+        return String.join("", ratesStrings);
+    }
 }
 
