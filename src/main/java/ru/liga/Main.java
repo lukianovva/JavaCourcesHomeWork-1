@@ -1,26 +1,25 @@
 package ru.liga;
 
-import ru.liga.currencyForecast.forecast.dictionaries.Command;
-import ru.liga.currencyForecast.forecast.exceptions.CurrencyNotFoundException;
-import ru.liga.currencyForecast.forecast.exceptions.ValidationException;
-import ru.liga.currencyForecast.forecast.presentation.ControllerFactory;
-import ru.liga.currencyForecast.forecast.presentation.ForecastController;
-import ru.liga.currencyForecast.forecast.presentation.requests.RatesForecastRequest;
+import io.github.cdimascio.dotenv.Dotenv;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import ru.liga.currencyForecast.telegrambot.Bot;
 
 /**
- * Домашнее задание №1 - прогноз курса валют
+ * Домашнее задание - прогноз курса валют
  */
 public class Main {
     public static void main(String[] args)  {
         try {
-            RatesForecastRequest request = new RatesForecastRequest(args);
-            ForecastController controller = ControllerFactory.makeForecastController(request.getAlgorithm());
+            Dotenv dotenv = Dotenv.load();
 
-            if (request.getCommand() == Command.RATE) {
-                controller.rate(request);
-            }
-        } catch (CurrencyNotFoundException | ValidationException exception) {
-            System.out.println("Ошибка: " + exception.getMessage());
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(new Bot(
+                    dotenv.get("BOT_TOKEN")
+            ));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }

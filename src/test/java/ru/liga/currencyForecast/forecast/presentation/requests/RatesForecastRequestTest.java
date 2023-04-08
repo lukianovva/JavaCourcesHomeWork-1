@@ -1,28 +1,20 @@
 package ru.liga.currencyForecast.forecast.presentation.requests;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.currencyForecast.forecast.dictionaries.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RatesForecastRequestTest {
-
     @Test
-    void getCommand() {
-    }
+    public void successValidationTest() {
+        String[] args = {"rate", "TRY", "-date", "week", "-alg", "year"};
+        RatesForecastRequest request = new RatesForecastRequest(args);
 
-    @Test
-    void getCurrency() {
-    }
-
-    @Test
-    void getPeriod() {
-    }
-
-    @Test
-    void getAlgorithm() {
-    }
-
-    @Test
-    void getOutput() {
+        assertThat(request.getCommand()).isEqualTo(Command.RATE);
+        assertThat(request.getCurrency()).isEqualTo(Currency.TRY);
+        assertThat(request.getPeriod()).isEqualTo(Period.WEEK);
+        assertThat(request.getAlgorithm()).isEqualTo(Algorithm.YEAR);
+        assertThat(request.getOutput()).isEqualTo(Output.LIST);
     }
 }

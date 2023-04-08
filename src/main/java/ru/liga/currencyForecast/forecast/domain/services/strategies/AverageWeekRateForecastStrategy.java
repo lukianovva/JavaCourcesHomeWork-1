@@ -9,8 +9,9 @@ import java.util.Comparator;
  * Прогноз по среднему курс валют за 7 дней торгов
  */
 public class AverageWeekRateForecastStrategy implements ForecastStrategy {
-    public Float calculate(ExchangeRatesList rates) {
-        final int TRADE_DAYS = Integer.min(rates.rates().size(), 7);
+    public Float calculate(ExchangeRatesList rates, int afterLastRateDayNumber) {
+        final int DAYS_IN_WEEK = 7;
+        final int TRADE_DAYS = Integer.min(rates.rates().size(), DAYS_IN_WEEK);
 
         rates.rates().sort(Comparator.comparing(ExchangeRate::date));
 

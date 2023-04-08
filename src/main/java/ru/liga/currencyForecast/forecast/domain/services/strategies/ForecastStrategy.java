@@ -10,7 +10,8 @@ public interface ForecastStrategy {
      * Рассчитать прогноз
      *
      * @param rates Список курсов за прошлые даты
+     * @param afterLastRateDayNumber Порядковый номер дня после последней записи в rates
      * @return Прогноз курса валюты
      */
-    Float calculate(ExchangeRatesList rates);
+    Float calculate(ExchangeRatesList rates, int afterLastRateDayNumber);
 }

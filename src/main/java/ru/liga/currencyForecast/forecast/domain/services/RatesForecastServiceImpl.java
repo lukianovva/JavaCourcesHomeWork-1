@@ -19,27 +19,32 @@ public class RatesForecastServiceImpl implements RateForecastService {
     }
 
     public ExchangeRatesList calculateForFeatureDays(ExchangeRatesList rates, int days) {
+        GregorianCalendar startDate = new GregorianCalendar();
+        startDate.add(Calendar.DAY_OF_MONTH, 1);
+        return calculateForFeatureDaysFromDate(new GregorianCalendar(), rates, days);
+    }
+
+    public ExchangeRatesList calculateForFeatureDaysFromDate(Calendar startDate, ExchangeRatesList rates, int days) {
         final Integer CALCULATED_NOMINAL = 1;
 
         ExchangeRatesList calculated = new ExchangeRatesList(new ArrayList<>());
         ExchangeRatesList useRates = new ExchangeRatesList(rates.rates());
 
-        Calendar calculateDate = new GregorianCalendar();
+        Calendar calculateDate = (GregorianCalendar)  startDate.clone();
 
         for (int i = 0; i < days; i++) {
-            calculateDate.add(Calendar.DAY_OF_MONTH, 1);
-
             ExchangeRate rate = new ExchangeRate(
                     CALCULATED_NOMINAL,
                     (GregorianCalendar) calculateDate.clone(),
-                    strategy.calculate(useRates)
+                    strategy.calculate(useRates, i+1)
             );
 
             calculated.rates().add(rate);
             useRates.rates().add(rate);
+
+            calculateDate.add(Calendar.DAY_OF_MONTH, 1);
         }
 
         return calculated;
     }
-
 }

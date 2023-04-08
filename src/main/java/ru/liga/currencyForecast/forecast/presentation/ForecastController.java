@@ -1,35 +1,48 @@
 package ru.liga.currencyForecast.forecast.presentation;
 
-import ru.liga.currencyForecast.forecast.domain.entities.ExchangeRatesList;
 import ru.liga.currencyForecast.forecast.application.services.ApplicationForecastService;
-import ru.liga.currencyForecast.forecast.exceptions.CurrencyNotFoundException;
+import ru.liga.currencyForecast.forecast.dictionaries.Period;
+import ru.liga.currencyForecast.forecast.domain.entities.ExchangeRatesList;
 import ru.liga.currencyForecast.forecast.presentation.requests.RatesForecastRequest;
-import ru.liga.currencyForecast.forecast.presentation.views.ConsoleView;
+import ru.liga.currencyForecast.forecast.presentation.views.ChartRatesView;
 
-import java.util.*;
+import java.io.IOException;
 
 /**
  * Контроллер прогнозов курсов валют
  */
 public class ForecastController {
     private final ApplicationForecastService applicationForecastService;
-    private final ConsoleView forecastView;
 
-    public ForecastController(ApplicationForecastService applicationForecastService, ConsoleView forecastView) {
+    public ForecastController(ApplicationForecastService applicationForecastService) {
         this.applicationForecastService = applicationForecastService;
-        this.forecastView = forecastView;
     }
 
     /**
-     * Спрогнозировать курсы валют и вывести результат в консоль
+     * Спрогнозировать курсы валют
      */
-    public void rate(RatesForecastRequest request) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("forecasts", this.applicationForecastService.calculateForFeatureDays(
+    public String rate(RatesForecastRequest request) {
+        ExchangeRatesList exchangeRatesList = this.applicationForecastService.calculateForFeatureDays(
+                request.getAlgorithm(),
                 request.getCurrency().name(),
-                1)
+                Period.periodDays(request.getPeriod())
         );
 
-        this.forecastView.render(data);
+        ChartRatesView chart = new ChartRatesView(exchangeRatesList);
+
+        try {
+            chart.save("chart.png");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        switch (request.getOutput()) {
+            case LIST -> {
+                return exchangeRatesList.toString();
+            }
+        }
+
+        throw new RuntimeException("Метод вывода " + request.getOutput() + " не реализован");
     }
 }

@@ -48,6 +48,11 @@ public abstract class AbstractReader implements Reader {
             throw new IOException("Файл " + filename + " не найден");
         }
 
-        return new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        BufferedReader reader =  new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+
+        // Игнорируем заголовки csv
+        reader.readLine();
+
+        return reader;
     }
 }

@@ -17,9 +17,6 @@ public final class ReaderImpl extends AbstractReader {
 
         String line;
         int i = 0;
-
-        // Одно пустое прочтение, игнорируем заголовки столбцов
-        reader.readLine();
         while ((line = reader.readLine()) != null && i < count) {
             rows.add(parseRow(line));
             i++;
@@ -33,8 +30,6 @@ public final class ReaderImpl extends AbstractReader {
         List<Row> rows = new ArrayList<>();
 
         String line;
-        // Одно пустое прочтение, игнорируем заголовки столбцов
-        reader.readLine();
         while ((line = reader.readLine()) != null) {
             rows.add(parseRow(line));
         }
@@ -43,18 +38,16 @@ public final class ReaderImpl extends AbstractReader {
     }
 
     @Override
-    public List<Row> readFiltered(String filename, int count, Function<Row, Boolean> callback) throws IOException {
+    public List<Row> readFiltered(String filename, int count, Function<Row, Boolean> filterCallback) throws IOException {
         BufferedReader reader = getFileReader(filename);
         List<Row> rows = new ArrayList<>();
 
         String line;
         int i = 0;
 
-        // Одно пустое прочтение, игнорируем заголовки столбцов
-        reader.readLine();
         while ((line = reader.readLine()) != null && i < count) {
             Row row = parseRow(line);
-            if (callback.apply(row)) {
+            if (filterCallback.apply(row)) {
                 rows.add(row);
                 i++;
             }
@@ -64,16 +57,14 @@ public final class ReaderImpl extends AbstractReader {
     }
 
     @Override
-    public List<Row> readFilteredAll(String filename, Function<Row, Boolean> callback) throws IOException {
+    public List<Row> readFilteredAll(String filename, Function<Row, Boolean> filterCallback) throws IOException {
         BufferedReader reader = getFileReader(filename);
         List<Row> rows = new ArrayList<>();
 
         String line;
-        // Одно пустое прочтение, игнорируем заголовки столбцов
-        reader.readLine();
         while ((line = reader.readLine()) != null) {
             Row row = parseRow(line);
-            if (callback.apply(row)) {
+            if (filterCallback.apply(row)) {
                 rows.add(row);
             }
         }

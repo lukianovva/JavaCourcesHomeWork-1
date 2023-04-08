@@ -10,8 +10,7 @@ import ru.liga.currencyForecast.forecast.application.services.ApplicationForecas
 import ru.liga.currencyForecast.forecast.domain.services.RateForecastService;
 import ru.liga.currencyForecast.forecast.domain.services.strategies.FirstRateForecastStrategy;
 import ru.liga.currencyForecast.forecast.domain.services.strategies.ForecastStrategy;
-import ru.liga.currencyForecast.forecast.presentation.views.ConsoleForecastView;
-import ru.liga.currencyForecast.forecast.presentation.views.ConsoleView;
+import ru.liga.currencyForecast.forecast.domain.services.strategies.LinearRegressionStrategy;
 import ru.liga.currencyForecast.forecast.repositories.RatesCsvRepository;
 import ru.liga.currencyForecast.forecast.repositories.RatesRepository;
 
@@ -21,18 +20,10 @@ import ru.liga.currencyForecast.forecast.repositories.RatesRepository;
 public class ControllerFactory {
 
     public static ForecastController makeForecastController(Algorithm forecastAlgorithm) {
-        ForecastStrategy forecastStrategy = null;
-        
-        switch (forecastAlgorithm) {
-            case WEEK -> {
-                forecastStrategy = new AverageWeekRateForecastStrategy();
-            }
-            case LASTYEAR -> {
-                forecastStrategy = new FirstRateForecastStrategy();
-            }
-        }
+        RateForecastService domainForecastService = new RatesForecastServiceImpl(
+                makeForecastStrategy(forecastAlgorithm)
+        );
 
-        RateForecastService domainForecastService = new RatesForecastServiceImpl(forecastStrategy);
         Reader csvReader = new ReaderImpl();
         RatesRepository repository = new RatesCsvRepository(csvReader);
 
@@ -40,11 +31,23 @@ public class ControllerFactory {
                 repository,
                 domainForecastService
         );
-        ConsoleView forecastView = new ConsoleForecastView();
 
-        return new ForecastController(
-                applicationForecastService,
-                forecastView
-        );
+        return new ForecastController(applicationForecastService);
+    }
+
+    private static ForecastStrategy makeForecastStrategy(Algorithm forecastAlgorithm) {
+        switch (forecastAlgorithm) {
+            case WEEK -> {
+                return new AverageWeekRateForecastStrategy();
+            }
+            case YEAR, MIST -> {
+                return new FirstRateForecastStrategy();
+            }
+            case REGRESSION -> {
+                return new LinearRegressionStrategy();
+            }
+        }
+
+        throw new RuntimeException("Алгоритм \"" + forecastAlgorithm + "\" не реализован");
     }
 }

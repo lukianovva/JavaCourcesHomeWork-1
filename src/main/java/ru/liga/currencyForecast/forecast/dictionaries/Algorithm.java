@@ -5,7 +5,7 @@ package ru.liga.currencyForecast.forecast.dictionaries;
  */
 public enum Algorithm {
     WEEK ("week"),
-    LASTYEAR("year"),
+    YEAR("year"),
     MIST ("mist"),
     REGRESSION ("regression");
 
